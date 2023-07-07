@@ -89,4 +89,16 @@
     border-radius: 3px;
     cursor: pointer;
   }
+
+  .completed {
+    color: #A6CD35;
+    
+  }
+
+  .button-group button {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  
+  
   

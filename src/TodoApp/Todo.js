@@ -6,6 +6,7 @@ const TodoApp = () => {
   const [todos, setTodos] = useState([]);
   const [newTask, setNewTask] = useState('');
   const [filter, setFilter] = useState('all');
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Fetch todos from the API when the component mounts
   useEffect(() => {
@@ -33,6 +34,9 @@ const TodoApp = () => {
       };
       setTodos([...todos, newTodo]);
       setNewTask('');
+      setErrorMessage(''); // Clear the error message
+    } else {
+      setErrorMessage('Task should not be empty');
     }
   };
 
@@ -63,6 +67,20 @@ const TodoApp = () => {
     filter === 'completed' ? todo.completed : true
   );
 
+  // Handle input field change
+  const handleInputChange = (e) => {
+    setNewTask(e.target.value);
+    setErrorMessage(''); // Clear the error message
+  };
+
+  // Handle edit task
+  const handleEdit = (id, title) => {
+    const updatedTitle = prompt('Enter new task title:', title);
+    if (updatedTitle && updatedTitle.trim() !== '') {
+      editTask(id, updatedTitle);
+    }
+  };
+
   return (
     <div className="container">
       <h1>Todo App</h1>
@@ -71,10 +89,15 @@ const TodoApp = () => {
           type="text"
           placeholder="Add a new task"
           value={newTask}
-          onChange={e => setNewTask(e.target.value)}
+          onChange={handleInputChange}
         />
         <button onClick={addTask}>Add Task</button>
       </div>
+      {errorMessage && (
+        <div className="error-message" style={{ color: 'red' }}>
+          {errorMessage}
+        </div>
+      )}
       <div className="filter-buttons">
         <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>
           All
@@ -97,12 +120,17 @@ const TodoApp = () => {
               onChange={e => editTask(todo.id, e.target.value)}
               disabled={todo.completed}
               className={todo.completed ? 'completed' : ''}
+              
             />
+            <div className="button-group">
+            <button onClick={() => handleEdit(todo.id, todo.title)} style={{backgroundColor:"green"}}>Edit</button>
             <button onClick={() => deleteTask(todo.id)}>Delete</button>
+            </div>
           </li>
         ))}
       </ul>
     </div>
   );
-        }  
+};
+
 export default TodoApp;
