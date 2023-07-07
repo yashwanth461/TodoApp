@@ -92,6 +92,7 @@
 
   .completed {
     color: #A6CD35;
+    text-decoration: line-through;
     
   }
 
