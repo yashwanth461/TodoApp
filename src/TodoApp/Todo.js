@@ -32,7 +32,7 @@ const TodoApp = () => {
         title: newTask,
         completed: false
       };
-      setTodos([...todos, newTodo]);
+      setTodos([newTodo, ...todos ]);
       setNewTask('');
       setErrorMessage(''); // Clear the error message
     } else {
@@ -107,28 +107,34 @@ const TodoApp = () => {
         </button>
       </div>
       <ul className="todo-list">
-        {filteredTodos.map(todo => (
-          <li key={todo.id}>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => toggleTaskCompletion(todo.id)}
-            />
-            <input
-              type="text"
-              value={todo.title}
-              onChange={e => editTask(todo.id, e.target.value)}
-              disabled={todo.completed}
-              className={todo.completed ? 'completed' : ''}
-              
-            />
-            <div className="button-group">
-            <button onClick={() => handleEdit(todo.id, todo.title)} style={{backgroundColor:"green"}}>Edit</button>
-            <button onClick={() => deleteTask(todo.id)}>Delete</button>
-            </div>
-          </li>
-        ))}
-      </ul>
+  {filteredTodos.map(todo => (
+    <li key={todo.id}>
+      <input
+        type="checkbox"
+        checked={todo.completed}
+        onChange={() => toggleTaskCompletion(todo.id)}
+      />
+        <div className="task-container">
+        <div
+          className={`task-title ${todo.completed ? 'completed' : ''}`}
+          onClick={() => handleEdit(todo.id, todo.title)}
+          style={{ width: 323 }}
+        >
+          {todo.title}
+        </div> 
+        </div> 
+       
+        <div className="button-group">
+          <button onClick={() => handleEdit(todo.id, todo.title)} style={{ backgroundColor: "green" }}>
+            Edit
+          </button>
+          <button onClick={() => deleteTask(todo.id)}>Delete</button>
+        </div>
+      
+    </li>
+  ))}
+</ul>
+
     </div>
   );
 };
